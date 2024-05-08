@@ -21,13 +21,36 @@ module "network" {
   ]
 }
 
-module "virtual_machines" {
+module "virtual_machines_master" {
   source               = "./modules/vm"
   resource_group_name  = module.resource_group.resource_group_name
-  node_count           = var.node_count
-  node_type            = "master"  # You can adjust or make this variable dynamic as needed
+  node_count           = var.master_node_count
+  node_type            = "master"  
   main_subnet_id       = module.network.subnet_ids
-  machine_size         = "Standard_DS1_v2"  # Example machine size
-  storage_size_gb      = 128  # Example disk size in GB
+  machine_size         = var.master_machine_size  
+  storage_size_gb      = var.master_node_storage_size_gb 
+  name_prefix          = "vm"
+}
+
+module "virtual_machines_worker" {
+  source               = "./modules/vm"
+  resource_group_name  = module.resource_group.resource_group_name
+  node_count           = var.worker_node_count
+  node_type            = "worker" 
+  main_subnet_id       = [module.network.subnet_ids[1]]
+  machine_size         = var.worker_machine_size
+  storage_size_gb      = var.worker_node_storage_size_gb  
+  name_prefix          = "vm"
+}
+
+
+module "virtual_machines_admin" {
+  source               = "./modules/vm"
+  resource_group_name  = module.resource_group.resource_group_name
+  node_count           = var.admin_node_count
+  node_type            = "admin" 
+  main_subnet_id       = [module.network.subnet_ids[1]]
+  machine_size         = var.admin_machine_size
+  storage_size_gb      = var.admin_node_storage_size_gb  
   name_prefix          = "vm"
 }
