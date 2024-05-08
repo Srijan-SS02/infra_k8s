@@ -58,4 +58,5 @@ module "load_balancer" {
   source = "./modules/load_balancer"
   load_balancer_name = "k8s_loadbalancer"
   resource_group_name = module.resource_group.resource_group_name
+  resource_group_location = module.resource_group.resource_group_location
 }
