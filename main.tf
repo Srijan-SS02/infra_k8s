@@ -1,4 +1,3 @@
-# Resource group
 module "resource_group" {
   source               = "./modules/resource_group/"
   resource_group_name  = "k8s_rg"
@@ -53,4 +52,10 @@ module "virtual_machines_admin" {
   machine_size         = var.admin_machine_size
   storage_size_gb      = var.admin_node_storage_size_gb  
   name_prefix          = "vm"
+}
+
+module "load_balancer" {
+  source = "./modules/load_balancer"
+  load_balancer_name = "k8s_loadbalancer"
+  resource_group_name = module.resource_group.resource_group_name
 }
