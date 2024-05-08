@@ -1,9 +1,8 @@
 data "azurerm_resource_group" "rg" {
   name = var.resource_group_name
-  location = var.resource_group_location
 }
 
-resource "azurerm_public_ip" "ip_LB" {
+resource "azurerm_public_ip" "public_ip_LB" {
   name                = "PublicIPForLB"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
@@ -17,6 +16,11 @@ resource "azurerm_lb" "LoadBalancer" {
 
   frontend_ip_configuration {
     name                 = "PublicIPAddress"
-    public_ip_address_id = azurerm_public_ip.ip_LB.id
+    public_ip_address_id = azurerm_public_ip.public_ip_LB.id
   }
+}
+
+resource "azurerm_lb_backend_address_pool" "backend_pool" {
+  loadbalancer_id = azurerm_lb.LoadBalancer.id
+  name            = "BackEndAddressPool"
 }

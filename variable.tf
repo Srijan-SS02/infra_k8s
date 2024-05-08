@@ -2,16 +2,19 @@
 variable "vnet_cidr" {
   description = "Address space for the virtual network"
   type        = string
+  default = "10.0.0.0/16"
 }
 
 variable "location" {
   description = "Location for the resources"
   type        = string
+  default = "eastus"
 }
 
 variable "master_node_count" {
   description = "Number of virtual machines to create"
   type = number
+  default = 1
 }
 
 variable "master_node_storage_size_gb" {
@@ -30,6 +33,7 @@ variable "master_machine_size" {
 variable "worker_node_count" {
   description = "Number of virtual machines to create"
   type = number
+  default = 1
 }
 
 
@@ -49,6 +53,7 @@ variable "worker_machine_size" {
 variable "admin_node_count" {
   description = "Number of virtual machines to create"
   type = number
+  default = 1
 }
 
 
